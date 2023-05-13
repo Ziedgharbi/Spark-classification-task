@@ -17,9 +17,9 @@ dir(pyspark.ml)
 
 spark=SparkSession.builder.appName("Spark").getOrCreate()
 
-path="C:/Users/Zied/Nextcloud/Formation/Python/GITHUB/Spark classification task/"
+#path="C:/Users/Zied/Nextcloud/Formation/Python/GITHUB/Spark classification task/"
 
-path="./input_data/"
+path="./"
 input_path=path+'input_data/'
 def dowload_data():
     url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00571/hcvdat0.csv'
@@ -69,12 +69,14 @@ if __name__=='__main__':
     categoryEncoding=StringIndexer(inputCol='Category', outputCol='Category_enc').fit(df)
     df=categoryEncoding.transform(df)
     
-    categoryEncoding.labels
+    #categoryEncoding.labels
     df.show(5)
     
     
     #get label after encoding : inverse of StringIndxer
+    from pyspark.ml.feature import IndexToString
     
+    convert=IndexToString(inputCol='')
 
     
     
