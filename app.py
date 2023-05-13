@@ -10,6 +10,11 @@ import requests
 import pyspark
 from pyspark.sql import SparkSession
 
+import pyspark.ml
+dir(pyspark.ml)
+
+
+
 spark=SparkSession.builder.appName("Spark").getOrCreate()
 
 path="C:/Users/Zied/Nextcloud/Formation/Python/GITHUB/Spark classification task/"
@@ -36,13 +41,46 @@ if __name__=='__main__':
     dowload_data()
     df=read_csv()
     
-    df=df.dropColumns
-    
+    df=df.drop('_c0')
+    df.columns
     df.show()
-    df.describe()
     
+    df.printSchema()
     df.dtypes
     
+    print(df.describe().show())
+    
+    df.groupby("Category").count().show()
+    
+    from pyspark.ml.feature import VectorAssembler, StringIndexer 
+    
+    #unique value of Sex feature
+    df.select("Sex").distinct().show()
+    
+    #convert string feature to numerical feature :label encoding
+    SexEncoder=StringIndexer(inputCol='Sex', outputCol="Gender").fit(df)
+    df=SexEncoder.transform(df)
+    SexEncoder.labels
+    
+    df.show(5)
+    
+    #Encoding Categoy feature
+    df.select("Category").distinct().show()
+    categoryEncoding=StringIndexer(inputCol='Category', outputCol='Category_enc').fit(df)
+    df=categoryEncoding.transform(df)
+    
+    categoryEncoding.labels
+    df.show(5)
+    
+    
+    #get label after encoding : inverse of StringIndxer
+    
+
+    
+    
+    
+    
+
 
 
 
