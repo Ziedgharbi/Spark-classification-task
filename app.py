@@ -156,10 +156,13 @@ if __name__=='__main__':
     
     y_pred.select(['Category_enc', 'rawPrediction', 'probability', 'prediction','Category_original']).show(100)
     
+    rs.params
     
     
     
     
+    
+
     model_tree = DecisionTreeClassifier(featureCol='feature', labelcol='Category_enc')
     rs=model_tree.fit(train_data)
     
