@@ -75,6 +75,25 @@ if __name__=='__main__':
     
     df.groupby("Category").count().show()
     
+    # see if there are NA 
+    # Find Count of Null, None, NaN of All DataFrame Columns
+    from pyspark.sql.functions import col,isnan, when, count
+    
+    df.select([count(when(isnan(c) | col(c).isNull(), c)).alias(c) for c in df.columns]).show()
+    
+    # Find count for empty, None, Null, Nan with string literals.
+    from pyspark.sql.functions import col,isnan,when,count
+    df2 = df.select([count(when(col(c).contains('None') | \
+                                col(c).contains('NULL') | \
+                               (col(c) == '' ) | \
+                                col(c).isNull() | \
+                                isnan(c), c )).alias(c)
+                    for c in df.drop("feature").columns])
+    df2.show()   ### there are null because we forced the schema in column of type NA, so it is transformed for null
+    
+    df=df.dropna()
+    
+    
     from pyspark.ml.feature import VectorAssembler, StringIndexer 
     
     #unique value of Sex feature
@@ -103,12 +122,34 @@ if __name__=='__main__':
     df=convert.transform(df)
     df.show(5)
     
+    
+    
     # defining vector assembler 
     feature=['Age','ALB', 'ALP', 'ALT','AST', 'BIL', 'CHE', 'CHOL', 'CREA','GGT','PROT','Gender']
     
     feature_vec=VectorAssembler(inputCols=feature, outputCol="feature")
     
     df=feature_vec.transform(df)
+    df.show(5)
+    df.count()
+    
+    
+    ## Split dataset for train and test set
+    
+    train_data, test_data=df.randomSplit([0.75,0.25])
+
+    train_data.show(5)
+    train_data.count()
+
+    test_data.show(5)
+    test_data.count()
+    
+    
+    
+    
+
+    
+ 
     
 
     
