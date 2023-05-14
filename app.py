@@ -158,9 +158,16 @@ if __name__=='__main__':
     
     rs.params
     
+    #prediction accuracy evaluation
+    from pyspark.ml.evaluation import MulticlassClassificationEvaluator
     
+    evaluator=MulticlassClassificationEvaluator(predictionCol='prediction', labelCol='Category_enc', metricName='accuracy')
+    evaluator.evaluate(y_pred)   
     
+    #prediction precision evaluation : F1 score and recall
+    from pyspark.mllib.evaluation import MulticlassMetrics
     
+    metrics=MulticlassMetrics(y_pred.select())
     
 
     model_tree = DecisionTreeClassifier(featureCol='feature', labelcol='Category_enc')
