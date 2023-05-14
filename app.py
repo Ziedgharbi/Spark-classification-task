@@ -135,7 +135,6 @@ if __name__=='__main__':
     
     
     ## Split dataset for train and test set
-    
     train_data, test_data=df.randomSplit([0.75,0.25])
 
     train_data.show(5)
@@ -143,6 +142,26 @@ if __name__=='__main__':
 
     test_data.show(5)
     test_data.count()
+    
+    #DEFINE MODEL 
+    from pyspark.ml.classification import LogisticRegression, DecisionTreeClassifier
+    
+    model_logistic=LogisticRegression(featuresCol='feature', labelCol='Category_enc')
+    
+    rs=model_logistic.fit(train_data)
+    y_pred=rs.transform(test_data)
+    
+    y_pred.show()
+    print(y_pred.columns)
+    
+    y_pred.select(['Category_enc', 'rawPrediction', 'probability', 'prediction','Category_original']).show(100)
+    
+    
+    
+    
+    
+    model_tree = DecisionTreeClassifier(featureCol='feature', labelcol='Category_enc')
+    rs=model_tree.fit(train_data)
     
     
     
