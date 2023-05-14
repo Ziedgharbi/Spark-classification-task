@@ -167,7 +167,13 @@ if __name__=='__main__':
     #prediction precision evaluation : F1 score and recall
     from pyspark.mllib.evaluation import MulticlassMetrics
     
-    metrics=MulticlassMetrics(y_pred.select())
+    class_metrics=MulticlassMetrics(y_pred['prediction', 'Category_enc'].rdd)
+    print(dir(class_metrics))
+    
+    class_metrics.accuracy
+    class_metrics.fMeasure(1.0)
+    class_metrics.recall(1.0)
+    class_metrics.confusionMatrix().toArray()
     
 
     model_tree = DecisionTreeClassifier(featureCol='feature', labelcol='Category_enc')
