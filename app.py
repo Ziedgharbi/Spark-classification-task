@@ -172,14 +172,5 @@ if __name__=='__main__':
     model_tree = DecisionTreeClassifier(featureCol='feature', labelcol='Category_enc')
     rs=model_tree.fit(train_data)
     
-    
-    
-    
-    
-    
-
-
-
-
 
 
