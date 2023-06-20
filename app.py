@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri May 12 14:10:38 2023
-
-@author: Zied
-"""
 import findspark
 findspark.init()
 import pandas as pd
