@@ -2,7 +2,6 @@
 """
 Created on Fri May 12 14:10:38 2023
 
-
 @author: Zied
 """
 import findspark
@@ -15,8 +14,6 @@ from pyspark.sql.types import DoubleType, StructField, StructType, StringType
 
 import pyspark.ml
 dir(pyspark.ml)
-
-
 
 spark=SparkSession.builder.appName("Spark").getOrCreate()
 
@@ -70,7 +67,6 @@ if __name__=='__main__':
     df.printSchema()
     df.dtypes
     
-    
     print(df.describe().show())
     
     df.groupby("Category").count().show()
@@ -92,7 +88,6 @@ if __name__=='__main__':
     df2.show()   ### there are null because we forced the schema in column of type NA, so it is transformed for null
     
     df=df.dropna()
-    
     
     from pyspark.ml.feature import VectorAssembler, StringIndexer 
     
@@ -121,8 +116,6 @@ if __name__=='__main__':
     convert=IndexToString(inputCol='Category_enc', outputCol='Category_original')
     df=convert.transform(df)
     df.show(5)
-    
-    
     
     # defining vector assembler 
     feature=['Age','ALB', 'ALP', 'ALT','AST', 'BIL', 'CHE', 'CHOL', 'CREA','GGT','PROT','Gender']
@@ -180,13 +173,6 @@ if __name__=='__main__':
     rs=model_tree.fit(train_data)
     
     
-    
-    
-
-    
- 
-    
-
     
     
     
